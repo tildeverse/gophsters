@@ -32,7 +32,7 @@ fn main() {
 
     let fut = fetch_stories(url)
         .map(|stories| {
-            create_gophermap(stories).unwrap();
+            create_geminimap(stories).unwrap();
         })
         .map_err(|e| {
             match e {
@@ -46,10 +46,10 @@ fn main() {
     println!("Done.")
 }
 
-fn create_gophermap(stories: Vec<Story>) -> std::io::Result<()> {
-    let mut f = File::create("gophermap")?;
-    let gophermap = stories_to_gophermap(stories);
-    f.write_all(&gophermap.as_bytes())?;
+fn create_geminimap(stories: Vec<Story>) -> std::io::Result<()> {
+    let mut f = File::create("geminimap")?;
+    let geminimap = stories_to_geminimap(stories);
+    f.write_all(&geminimap.as_bytes())?;
     Ok(())
 }
 
@@ -57,31 +57,30 @@ fn termination_line() -> String {
     "\r\n.".to_owned()
 }
 
-fn stories_to_gophermap(stories: Vec<Story>) -> String {
-    let mut gophermap = String::new();
-    gophermap.push_str(&main_title());
+fn stories_to_geminimap(stories: Vec<Story>) -> String {
+    let mut geminimap = String::new();
+    geminimap.push_str(&main_title());
     for story in stories {
         println!("Building story: {}", story.title);
 
         let story_has_url = story.url.is_empty();
         let story_line = if story_has_url {
-            format!("h[{}] - {}\tURL:{}\n", story.score, deunicode(&story.title), story.short_id_url)
+            format!("=> {} [{}] - {}\n", story.short_id_url, story.score, deunicode(&story.title))
         } else {
             let re = Regex::new(r"^https").unwrap();
             let story_url = re.replace_all(&story.url, "http");
-            format!("h[{}] - {}\tURL:{}\n", story.score, deunicode(&story.title), story_url)
+            format!("=> {} [{}] - {}\n", story_url, story.score, deunicode(&story.title))
         };
 
         let meta_line = format!("Submitted {} by {} | {}\n", pretty_date(&story.created_at), story.submitter_user.username, story.tags.join(", "));
-        let comment_line = format!("0View comments ({})\t{}\n\n", &story.comment_count, format!("{}.txt", &story.short_id));
+        let comment_line = format!("=> {} View comments ({})\n\n", format!("{}.txt", &story.short_id), &story.comment_count);
         build_comments_for(story);
 
-        gophermap.push_str(&story_line);
-        gophermap.push_str(&meta_line);
-        gophermap.push_str(&comment_line);
+        geminimap.push_str(&story_line);
+        geminimap.push_str(&meta_line);
+        geminimap.push_str(&comment_line);
     }
-    gophermap.push_str(&termination_line());
-    gophermap
+    geminimap
 }
 
 fn build_comments_for(story: Story) {
@@ -145,7 +144,7 @@ fn main_title() -> String {
 | '--------------' |
  '----------------'
 
-This is an unofficial Lobste.rs mirror on gopher.
+This is an unofficial Lobste.rs mirror on gemini.
 You can find the 25 hottest stories and their comments.
 Sync happens every 10 minutes or so.
 
