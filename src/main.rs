@@ -26,10 +26,10 @@ error_chain!{
 }
 
 #[derive(Debug, StructOpt)]
-#[structopt(name = "gophsters", about = "Generate a gophermap from lobste.rs recent stories")]
+#[structopt(name = "gophsters", about = "Generate a gophermap from tilde.news recent stories")]
 struct Cli {
     /// The host to fetch Lobsters articles from
-    #[structopt(short = "h", long = "host", default_value = "lobste.rs")]
+    #[structopt(short = "h", long = "host", default_value = "tilde.news")]
     host: String,
 }
 

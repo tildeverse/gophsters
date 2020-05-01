@@ -63,19 +63,19 @@ fn cleanup(comment: &str) -> String {
 fn main_title() -> String {
     let utc = Utc::now().format("%a %b %e %T %Y").to_string();
     format!("
- .----------------.
-| .--------------. |
-| |   _____      | |
-| |  |_   _|     | |
-| |    | |       | |
-| |    | |   _   | |
-| |   _| |__/ |  | |
-| |  |________|  | |
-| |              | |
-| '--------------' |
- '----------------'
+ .-----------------.
+| .---------------. |
+| |   _________   | |
+| |  |___   ___|  | |
+| |      | |      | |
+| |      | |      | |
+| |     _| |_     | |
+| |    |_____|    | |
+| |               | |
+| '---------------' |
+ '-----------------'
 
-This is an unofficial Lobste.rs mirror on gopher.
+This is the official tilde.news portal in gopherland
 You can find the 25 hottest stories and their comments.
 Sync happens every 10 minutes or so.
 
@@ -86,18 +86,17 @@ Last updated {}
 
 fn comment_title(story: &Story) -> String {
     format!("
- .----------------.
-| .--------------. |
-| |   _____      | |
-| |  |_   _|     | |
-| |    | |       | |
-| |    | |   _   | |
-| |   _| |__/ |  | |
-| |  |________|  | |
-| |              | |
-| '--------------' |
- '----------------'
-
+ .-----------------.
+| .---------------. |
+| |   _________   | |
+| |  |___   ___|  | |
+| |      | |      | |
+| |      | |      | |
+| |     _| |_     | |
+| |    |_____|    | |
+| |               | |
+| '---------------' |
+ '-----------------'
 
 Viewing comments for \"{}\"
 ---
